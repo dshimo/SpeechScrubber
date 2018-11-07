@@ -20,7 +20,7 @@ public class HttpUtils {
     public String sendGetRequest(String targetUrl, Map<String, String> requestProperties) {
         HttpURLConnection connection = null;
         try {
-            connection = createHttpUrlConnection(targetUrl, requestProperties);
+            connection = createHttpUrlConnection(targetUrl, requestProperties, "GET");
             return readConnectionResponse(connection);
         } catch (Exception e) {
             e.printStackTrace();
@@ -32,10 +32,29 @@ public class HttpUtils {
         return null;
     }
 
-    HttpURLConnection createHttpUrlConnection(String targetUrl, Map<String, String> requestProperties) throws MalformedURLException, IOException, ProtocolException {
+    public String sendPostRequest(String targetUrl, Map<String, String> requestProperties) {
+        HttpURLConnection connection = null;
+        try {
+            connection = createHttpUrlConnection(targetUrl, requestProperties, "POST");
+            return readConnectionResponse(connection);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (connection != null) {
+                connection.disconnect();
+            }
+        }
+        return null;
+    }
+
+    public String sendPostRequest(String targetUrl) {
+        return sendPostRequest(targetUrl, null);
+    }
+
+    HttpURLConnection createHttpUrlConnection(String targetUrl, Map<String, String> requestProperties, String requestType) throws MalformedURLException, IOException, ProtocolException {
         URL url = new URL(targetUrl);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setRequestMethod("GET");
+        connection.setRequestMethod(requestType);
         connection.setUseCaches(false);
         connection.setDoOutput(false);
         if (requestProperties != null) {

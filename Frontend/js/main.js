@@ -1,18 +1,24 @@
 $(document).ready(function() {
     var upload_url = "";
-    var timestamp_map;
-    $.ajax({
-        url: upload_url
-    }).done(function(data) {
-        if(data){
-            // Display results
-        }
-        else {
-            // Display error
-        }
-    });
+    var timestamp_map; // Map of words to timestamp
 
-    $('#file_browse').on('change', function(event){
+    var uploadFile = function(file){
+        $.ajax({
+            url: upload_url,
+            type: "POST",
+            data: file,
+            success: function(data){
+                if(data){
+                    // Transcript comes back
+                }
+            },
+            error: function(response){
+                // Display error
+            }
+        });
+    };    
+
+    $('#file_browse').on('change', function(){
         // Insert the uploaded audio file in the audio portion.
         $('#audio').removeClass('hidden');
         
@@ -24,6 +30,7 @@ $(document).ready(function() {
             // audio.play();
         };
         reader.readAsDataURL(this.files[0]);
+        uploadFile(this.files[0]);
     });
 
     // Upon clicking the file upload icon, click the hidden file input to open up a finder.
@@ -35,8 +42,13 @@ $(document).ready(function() {
     // Handle clicking on part of the transcript and jumping to the respective spot in the audio clip.
     $('#transcript span').on('click', function(){
         var span = this;
-        console.log("Clicked on '" + span.innerText + "' in the transcript.");
+        var text = span.innerText;
+        console.log("Clicked on '" + text + "' in the transcript.");
 
-        $('#audio')[0].currentTime = 5;
+        var index = span.data('index');
+        var time = timestamp_map[index];
+        if(time){
+            $('#audio')[0].currentTime = time;
+        }        
     });
 });

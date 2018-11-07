@@ -11,6 +11,10 @@ $(document).ready(function() {
             url: upload_url,
             type: "POST",
             data: file,
+            async: true,
+            cache: false,
+            contentType: false,
+            processData: false,
             success: function(response){
                 if(response){
                     // ID from the job comes back. Need to keep polling to determine when the job is done/failed.
@@ -23,6 +27,20 @@ $(document).ready(function() {
         });
         return deferred;
     };
+
+    $.ajax({
+        url: "/speechScrubber/rest/speech/check",
+        type: "GET",
+        success: function(response){
+            if(response){
+                console.log(response);
+            }
+        },
+        error: function(error){
+            console.log('error');
+        }
+    });
+
 
     $('#file_browse').on('change', function(){
         // Insert the uploaded audio file in the audio portion.

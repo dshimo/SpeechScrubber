@@ -1,0 +1,50 @@
+body {
+    font-family: "Asap";
+}
+
+p {
+    font-size: 16px;
+}
+
+#main {
+    padding-top: 50px;
+}
+
+#file_upload {
+    border: 2px solid darkgray;
+    padding: 5px 15px;
+}
+
+#file_upload:hover {
+    cursor: pointer;
+}
+
+#file_upload > p {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+#file_upload > img {
+    width: 16px;
+    height: 16px;    
+}
+
+/* Audio  */
+#audio_section {
+    margin-top: 50px;
+}
+
+/* Transcript */
+#transcript_section {
+
+}
+
+#transcript {
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+#transcript_description,
+#transcript_instructions {
+    display: block;
+}

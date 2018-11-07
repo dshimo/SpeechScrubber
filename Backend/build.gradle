@@ -39,14 +39,11 @@ liberty {
     server {
         name = "revClient"
         configFile = file("src/main/liberty/config/server.xml")
-        bootstrapProperties = ['default.http.port': testServerHttpPort,
-                               'default.https.port': testServerHttpsPort,
-                               'app.context.root': warContext]
+
         packageLiberty {
             archive = "$buildDir/${appName}.zip"
             include = "usr"
         }
     }
-    apps = [war]
 }
 

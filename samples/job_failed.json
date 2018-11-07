@@ -1,0 +1,7 @@
+{
+  "id": "111111",
+  "status": "failed",
+  "created_on": "2018-05-05T23:23:22.29Z",
+  "failure": "download_failure",
+  "failure_detail": "Failed to download media file. Please check your url and file type"
+}

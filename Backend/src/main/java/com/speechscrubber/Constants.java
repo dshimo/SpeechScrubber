@@ -1,3 +1,4 @@
+package com.speechscrubber;
 
 public class Constants {
 

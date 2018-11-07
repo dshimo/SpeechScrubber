@@ -1,3 +1,4 @@
+package com.speechscrubber.job;
 
 public class JobException extends Exception {
 

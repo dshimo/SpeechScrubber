@@ -6,6 +6,10 @@ p {
     font-size: 16px;
 }
 
+.hidden {
+    display: none;
+}
+
 #main {
     padding-top: 50px;
 }
@@ -32,6 +36,7 @@ p {
 /* Audio  */
 #audio_section {
     margin-top: 50px;
+    margin-bottom: 50px;
 }
 
 /* Transcript */
@@ -44,7 +49,21 @@ p {
     margin-bottom: 50px;
 }
 
+#transcript > span {
+    padding: 5px 10px;
+    border: 2px solid transparent;
+    border-radius: 50px;
+}
+
+#transcript > span:hover {
+    border: 2px solid black;
+}
+
+#transcript > span:hover {
+    cursor: pointer;
+}
+
 #transcript_description,
 #transcript_instructions {
-    display: block;
+    width: 100%;
 }

@@ -1,19 +1,18 @@
 package com.speechscrubber;
 
-import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 
-@Path("/speech")
-public interface RevSpeechService {
-
-    @POST
-    long upload();
-
-    @GET
-    int jobProgress();
+@Path("speech")
+public class RevSpeechService {
 
     @GET
-    String getTranscript();
+    @Path("check")
+    @Produces(MediaType.TEXT_PLAIN)
+    public String check() {
+        return "it works!!";
+    }
+
 }

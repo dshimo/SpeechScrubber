@@ -46,7 +46,7 @@ ext {
 
 liberty {
     server {
-        name = "revClient"
+        name = "server"
         bootstrapProperties = ['default.http.port': testServerHttpPort,
                                'default.https.port': testServerHttpsPort,
                                'appLocation': war.archiveName,

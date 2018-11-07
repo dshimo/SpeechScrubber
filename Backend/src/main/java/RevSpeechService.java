@@ -1,8 +1,9 @@
 
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
 
 @Path("/speech")
-@Consumes("application/json")
 public interface RevSpeechService {
 
     @POST
@@ -12,5 +13,5 @@ public interface RevSpeechService {
     int jobProgress();
 
     @GET
-    transcription getTranscript();
+    String getTranscript();
 }

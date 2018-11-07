@@ -3,6 +3,8 @@
         <feature>microprofile-1.3</feature>
     </featureManager>
 
-    <httpEndpoint httpPort="${default.http.port}" httpsPort="${default.https.port}" id="defaultHttpEndpoint"  host="*" />
+    <httpEndpoint httpPort="9080" httpsPort="9081" id="defaultHttpEndpoint"  host="*" />
+
+    <application name="speechScrubber" context-root="${appContext}" location="${appLocation}" type="war"></application>
 
 </server>

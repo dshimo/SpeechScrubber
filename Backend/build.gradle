@@ -5,6 +5,20 @@
  * Learn how to create Gradle builds at https://guides.gradle.org/creating-new-gradle-builds/
  */
 
+buildscript {
+    repositories {
+        mavenCentral()
+        maven {
+            name = 'Sonatype Nexus Snapshots'
+            url = 'https://oss.sonatype.org/content/repositories/snapshots/'
+        }
+    }
+    dependencies {
+        classpath 'net.wasdev.wlp.gradle.plugins:liberty-gradle-plugin:2.6-SNAPSHOT'
+    }
+}
+
+apply plugin: 'liberty'
 apply plugin: 'war'
 
 repositories {
@@ -13,9 +27,26 @@ repositories {
 
 dependencies {
     compile 'org.apache.httpcomponents:httpclient:4.5.6'
+    compile group: 'org.eclipse.microprofile', name: 'microprofile', version: '1.3'
+    libertyRuntime group: 'io.openliberty', name: 'openliberty-runtime', version: '[18.0.0.1,)'
 }
 
 war {
     archiveName = baseName + '.' + extension
+}
+
+liberty {
+    server {
+        name = "revClient"
+        configFile = file("src/main/liberty/config/server.xml")
+        bootstrapProperties = ['default.http.port': testServerHttpPort,
+                               'default.https.port': testServerHttpsPort,
+                               'app.context.root': warContext]
+        packageLiberty {
+            archive = "$buildDir/${appName}.zip"
+            include = "usr"
+        }
+    }
+    apps = [war]
 }
 

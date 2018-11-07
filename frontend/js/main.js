@@ -1,16 +1,19 @@
 $(document).ready(function() {
-    var upload_url = "";
+    var upload_url = "https://api.rev.ai/revspeech/v1beta/jobs/";
+    var jobInProgress = false;
+    var jobID;
     var timestamp_map; // Map of words to timestamp
 
     var uploadFile = function(file){
         var deferred = new $.Deferred();
+        jobInProgress = true;
         $.ajax({
             url: upload_url,
             type: "POST",
             data: file,
             success: function(response){
                 if(response){
-                    // Transcript comes back
+                    // ID from the job comes back. Need to keep polling to determine when the job is done/failed.
                 }
                 deferred.resolve();
             },

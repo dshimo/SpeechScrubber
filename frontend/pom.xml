@@ -52,7 +52,9 @@
 						<webResources>
 							<resource>
 								<!-- this is relative to the pom.xml directory -->
-								<directory>Backend/src/main/webapp</directory>
+								<directory>css</directory>
+								<directory>js</directory>
+								<directory>img</directory>
 							</resource>
 						</webResources>
 					</configuration>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Speech Scrubber</title>
+<meta name="description" content="Awesome text to speech app">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+<link href="https://fonts.googleapis.com/css?family=Asap:400,500" rel="stylesheet">
+<link rel="stylesheet" href="Frontend/css/main.css">
+</head>
+
+<body>
+<header>
+    <nav class="navbar navbar-default bg-dark">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">Speech Scrubber</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">                
+            <ul class="nav navbar-nav">               
+            </ul>
+        </div>
+    </div>
+    </nav>
+</header>
+<div id="main" class="container">
+    <div class="row">
+        <input type="file" id="file_browse" style="display: none">
+        <div id="file_upload" class="col-xs-12">
+                <p>Upload an audio file:</p>
+                <img id="upload_file_icon" src="Frontend/img/file_upload.png" />                
+        </div>
+    </div>       
+    <div id="audio_section" class="row">
+        <p id="audio_text">Audio clip:</p>
+    </div>
+    <div id="transcript_section" class="row">
+        <p id="transcript_description">Transcript of the audo clip:</p>
+        <div id="transcript"></div>
+        <p id="transcript_instructions">Click on any of the words in the transcript to jump to where it was said in the video.</p>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="Frontend/js/main.js"></script>
+</body>
+
+</html>

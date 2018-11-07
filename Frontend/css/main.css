@@ -10,6 +10,11 @@ p {
     display: none;
 }
 
+/* Header */
+.navbar-brand:hover {
+    color: #007bff;
+}
+
 #main {
     padding-top: 50px;
 }
@@ -37,6 +42,10 @@ p {
 #audio_section {
     margin-top: 50px;
     margin-bottom: 50px;
+}
+
+#audio_text {
+    width: 100%;
 }
 
 /* Transcript */

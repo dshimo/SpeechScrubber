@@ -21,7 +21,7 @@ p {
 
 #file_upload {
     border: 2px solid darkgray;
-    padding: 5px 15px;
+    padding: 10px 15px 0px 15px;
 }
 
 #file_upload:hover {
@@ -60,12 +60,8 @@ p {
 
 #transcript > span {
     padding: 5px 10px;
-    border: 2px solid transparent;
-    border-radius: 50px;
-}
-
-#transcript > span:hover {
     border: 2px solid black;
+    border-radius: 50px;
 }
 
 #transcript > span:hover {

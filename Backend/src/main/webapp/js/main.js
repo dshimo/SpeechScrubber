@@ -15,7 +15,6 @@ $(document).ready(function() {
                 deferred.resolve();
             },
             error: function(error){
-                // Display error
                 deferred.reject(error);
             }
         });
@@ -34,7 +33,9 @@ $(document).ready(function() {
         };
         reader.readAsDataURL(this.files[0]);
         uploadFile(this.files[0]).then(function(result){
-            // Show transcript then add 
+            // Show pills for each word in the transcript of the audio file.
+        }).fail(function(){
+            // Display error that no transcription was found.
         });
     });
 

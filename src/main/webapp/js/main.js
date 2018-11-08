@@ -12,7 +12,7 @@ $(document).ready(function() {
         $('#audio_text').removeClass('hidden');
         $('#audio_text').text("Uploading audio file...");
 
-        var formData = new FormData(file);
+        var formData = new FormData();
         formData.append('data', file);
         $.ajax({
             url: upload_url,
@@ -53,9 +53,12 @@ $(document).ready(function() {
             audio.controls = true;
         };
         reader.readAsDataURL(this.files[0]);
-        uploadFile(this.files[0]).then(function(token){
-            // Show pills for each word in the transcript of the audio file.
+        uploadFile(this.files[0]).then(function(jobID){
             // Poll for updates using the token
+
+
+
+            // Show pills for each word in the transcript of the audio file.
         }).fail(function(error){
             // Display error that no transcription was found.
         });
@@ -84,36 +87,41 @@ $(document).ready(function() {
         }                      
     });
 
-    // Filter down the transcript
-    $('#transcript_search').on('keydown', function(){
-        var search = this.value;
-        // Send POST to backend
+    function debounce(func, wait, immediate) {
+        var timeout;
+        return function() {
+            var context = this, args = arguments;
+            var later = function() {
+                timeout = null;
+                if (!immediate) func.apply(context, args);
+            };
+            var callNow = immediate && !timeout;
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+            if (callNow) func.apply(context, args);
+        };
+    };
+
+    var doSearch = debounce(function(search) {
         $.ajax({
-            url: "rest/speech/health",
+            url: "rest/speech/search?phrase=" + search,
             type: "POST",
-            data: search,
-            async: true,
             success: function(response){
+                console.log(response);
                 if(response.id !== null){
                     // ID from the job comes back. Need to keep polling to determine when the job is done/failed.
-                    deferred.resolve(response.id);
+                    console.log(response.id);
                 } else {
                 }
             },
             error: function(jqXHR){
+
             }
         });
+    }, 500);
 
-
-
-        // var words = $('#transcript > span');
-        // if(speech == ""){
-        //     // Show all pills
-        //     $('#transcript > span').show();
-        // } else {
-        //     // Filter down by the search criteria and if one matches instantly jump to the spot in the video.
-        //     var spans = $('#transcript > span');
-
-        // }
+    // Filter down the transcript
+    $('#transcript_search').on('input', function(){
+        doSearch(this.value);
     });
 });

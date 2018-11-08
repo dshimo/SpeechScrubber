@@ -134,7 +134,7 @@ $(document).ready(function() {
         reader.readAsDataURL(this.files[0]);
         uploadFile(this.files[0]).then(function(id){
             // Poll for updates using the token
-            pollForTranscript(id, 33).then(function(id){
+            pollForTranscript(id, 50).then(function(id){
                 // Retrieve the transcript
                 retrieveTranscript(id).then(function(response){
                     // // Show the transcript on the page.
@@ -200,14 +200,18 @@ $(document).ready(function() {
             type: "GET",
             success: function(response){
                 console.log(response);
-                if(response.id !== null){
-                    // ID from the job comes back. Need to keep polling to determine when the job is done/failed.
-                    console.log(response.id);
+                if(response){
+                    // Jump to the video where the timestamp is.                    
+                    var list = JSON.parse(response);
+                    var time = list[0];
+                    console.log('Searched for text: ' + search + ' and the timestamp is: ' + time);
+                    $('#audio')[0].currentTime = time;
                 } else {
+                    console.log('Error.');
                 }
             },
             error: function(jqXHR){
-
+                console.log('unable to retrieve search.');
             }
         });
     }, 500);

@@ -61,7 +61,7 @@ $(document).ready(function() {
                         deferred.reject();
                     }
                     else {
-                        return pollForTranscript(id, num_tries-1);
+                        return pollForTranscript(id, num_tries);
                     }                    
                 }
             });       

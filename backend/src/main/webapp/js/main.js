@@ -24,6 +24,19 @@ $(document).ready(function() {
         return deferred;
     };
 
+    $.ajax({
+        url: "rest/speech/check",
+        type: "GET",
+        success: function(response){
+            if(response){
+                // ID from the job comes back. Need to keep polling to determine when the job is done/failed.
+            }
+        },
+        error: function(error){
+            console.error('error');
+        }
+    });
+
     $('#file_browse').on('change', function(){
         // Insert the uploaded audio file in the audio portion.
         $('#audio').removeClass('hidden');

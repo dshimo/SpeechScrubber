@@ -174,7 +174,6 @@ $(document).ready(function() {
                 var time = timestamp_map[index];
                 if(time){
                     $('#audio')[0].currentTime = time;
-                    $('#audio')[0].play();
                 }
             }  
         }                      

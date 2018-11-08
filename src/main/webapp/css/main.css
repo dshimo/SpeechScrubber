@@ -44,6 +44,10 @@ p {
     margin-bottom: 50px;
 }
 
+#audio {
+    width: 100%;
+}
+
 /* Transcript */
 #transcript_section {
 

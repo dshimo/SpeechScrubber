@@ -55,3 +55,10 @@ liberty {
     }
 }
 
+task copyKeystore(type: Copy) {
+    from 'src/main/liberty/config/resources/security/'
+    into 'build/wlp/usr/servers/server/resources/security'
+}
+
+libertyStart.dependsOn(copyKeystore)
+clean.dependsOn(libertyStop)

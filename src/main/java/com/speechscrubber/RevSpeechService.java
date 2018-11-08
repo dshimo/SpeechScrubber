@@ -46,7 +46,7 @@ public class RevSpeechService {
         return "passed phrase: " + getSearchPhrase();
     }
 
-    private String setSearchPhrase(String phrase) {
+    private void setSearchPhrase(String phrase) {
         this.searchPhrase = phrase;
     }
 

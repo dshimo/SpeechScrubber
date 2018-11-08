@@ -7,4 +7,6 @@
 
     <application name="speechScrubber" context-root="${appContext}" location="${appLocation}" type="war"></application>
 
+    <keyStore id="myKeyStore" location="resources/security/keystore.jks" password="Hackathon" />
+
 </server>

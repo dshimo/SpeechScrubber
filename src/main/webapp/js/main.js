@@ -26,7 +26,7 @@ $(document).ready(function() {
                 // $('#audio').removeClass('hidden');
                 if(response.id !== null){
                     // ID from the job comes back. Need to keep polling to determine when the job is done/failed.
-                    // deferred.resolve(response.id);
+                    jobID = response.id;
                     deferred.resolve(result.id);
                 } else {
                     deferred.reject();
@@ -166,7 +166,7 @@ $(document).ready(function() {
 
     var doSearch = debounce(function(search) {
         $.ajax({
-            url: "rest/speech/search?phrase=" + search,
+            url: "rest/speech/" + jobID + "/timestamps/search?phrase=" + search,
             type: "POST",
             success: function(response){
                 console.log(response);

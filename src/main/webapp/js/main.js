@@ -27,7 +27,7 @@ $(document).ready(function() {
                 if(response.id !== null){
                     // ID from the job comes back. Need to keep polling to determine when the job is done/failed.
                     jobID = response.id;
-                    deferred.resolve(result.id);
+                    deferred.resolve(response.id);
                 } else {
                     deferred.reject();
                 }

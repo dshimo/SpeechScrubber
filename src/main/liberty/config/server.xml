@@ -7,6 +7,8 @@
 
     <application name="speechScrubber" context-root="${appContext}" location="${appLocation}" type="war"></application>
 
+    <sslDefault sslRef="DefaultSSLSettings" />
+    <ssl id="DefaultSSLSettings" trustStoreRef="myKeyStore" />
     <keyStore id="myKeyStore" location="resources/security/keystore.jks" password="Hackathon" />
 
 </server>

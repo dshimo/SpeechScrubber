@@ -56,6 +56,13 @@ public class JobCheckerTest {
 
     /******************************************************* isTranscriptReady *******************************************************/
 
+    @Test
+    public void test_isTranscriptReady_validJob_transcribed() {
+        String inputId = "85032187";
+        boolean result = checker.isTranscriptReady(inputId);
+        assertTrue("Job [" + inputId + "] should have its transcript ready, but evidently did not.", result);
+    }
+
     /******************************************************* verifyJobIdFormat *******************************************************/
 
     @Test
@@ -132,6 +139,7 @@ public class JobCheckerTest {
             JsonObject result = checker.getJobData(inputId);
             assertNotNull("Result should not have been null but was.", result);
             assertEquals("ID did not match expected value.", inputId, result.getString(JobChecker.KEY_ID));
+            assertEquals("Status did not match expected value.", "transcribed", result.getString(JobChecker.KEY_STATUS));
         } catch (JobException e) {
             fail("Should not have thrown an exception but did. Exception was: " + e);
         }

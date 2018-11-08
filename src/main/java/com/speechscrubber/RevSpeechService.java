@@ -3,16 +3,26 @@ package com.speechscrubber;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 
-@Path("speech")
+import com.speechscrubber.job.JobChecker;
+
+@Path("/speech")
 public class RevSpeechService {
 
     @GET
-    @Path("check")
+    @Path("/health")
     @Produces(MediaType.TEXT_PLAIN)
-    public String check() {
-        return "it works!!";
+    public String health() {
+        return "yay!!";
     }
 
+    @GET
+    @Path("/check/{id}")
+    @Produces(MediaType.TEXT_PLAIN)
+    public String isTranscriptReady(@PathParam("id") String id) {
+        JobChecker jobChecker = new JobChecker();
+        return "id " + id + " ready to transcribe: " + jobChecker.isTranscriptReady(id);
+    }
 }

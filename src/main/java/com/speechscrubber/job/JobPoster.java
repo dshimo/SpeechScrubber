@@ -43,20 +43,20 @@ public class JobPoster {
 
             writer.append("\r\n");
 
-            String body = "{\"media_url\": \"https://support.rev.com/hc/en-us/article_attachments/200043975/FTC_Sample_1_-_Single.mp3\",\"metadata\": \"AYOHO test\""/*
-                                                                                                                                                                      * ,\"callback_url\": \"
-                                                                                                                                                                      * https
-                                                                                                                                                                      * :
-                                                                                                                                                                      * /
-                                                                                                                                                                      * /
-                                                                                                                                                                      * www
-                                                                                                                                                                      * .
-                                                                                                                                                                      * example
-                                                                                                                                                                      * .
-                                                                                                                                                                      * com
-                                                                                                                                                                      * /
-                                                                                                                                                                      * callback\
-                                                                                                                                                                      */ + "}";
+            String body = "{\"media_url\": \"https://raw.githubusercontent.com/dshimo/SpeechScrubber/master/samples/audio/sample.mp3\",\"metadata\": \"AYOHO test\""/*
+                                                                                                                                                                     * ,\"callback_url\": \"
+                                                                                                                                                                     * https
+                                                                                                                                                                     * :
+                                                                                                                                                                     * /
+                                                                                                                                                                     * /
+                                                                                                                                                                     * www
+                                                                                                                                                                     * .
+                                                                                                                                                                     * example
+                                                                                                                                                                     * .
+                                                                                                                                                                     * com
+                                                                                                                                                                     * /
+                                                                                                                                                                     * callback\
+                                                                                                                                                                     */ + "}";
             writer.append(body).append("\r\n");
 
             //            String paramMedia = "media=@" + env.get("PWD") + "/" + fileName + ";type=audio/*";

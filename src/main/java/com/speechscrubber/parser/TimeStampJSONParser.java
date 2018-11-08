@@ -12,7 +12,7 @@ public class TimeStampJSONParser {
 	
 	private static List<Double> times = new ArrayList<Double>();
 
-	TimeStampJSONParser(JSONObject transcript) {
+	TimeStampJSONParser(JSONObject transcript, String searchString) {
 
 	   OrderedJSONObject jsonObject = (OrderedJSONObject) transcript;
 	   
@@ -21,9 +21,8 @@ public class TimeStampJSONParser {
 	   JSONObject speaker1 = (JSONObject) monologues.get(1);
 	   
 	   JSONArray elements = (JSONArray) speaker1.get("elements");
-	   
-	   String sentence = "monologues are block of text";
-	   String[] sentenceArray = sentence.split(" ");
+
+	   String[] sentenceArray = searchString.split(" ");
 	   Double time = null;
 	   boolean done = false;
 	   int count = 0;
@@ -40,43 +39,30 @@ public class TimeStampJSONParser {
 				   if(time == null) {
 					   
 					   time = Double.valueOf((Double) element.get("ts"));
-					   System.out.println("Time is null: " + time);
 					   break;
 					   
 				    } 
 				   else {
-				    		System.out.println(value + " == " + sentenceArray[i].equals(value));
-				    		if(sentenceArray.length == (i + 1)) {
-				    		    System.out.println("count= " + count);
-				    		}
 				    		break;
 				    	
 				    }
 				   
 				}
 		   		else if (!sentenceArray[i].equals(value)) {
-		   			System.out.println(sentenceArray[i] + " != " + value);
+
 		   			if(time != null) {	
 		   				if(elements.size() == (j + 1)) {
-		   					System.out.println("elements.size() = " + (j + 1));
-		   					System.out.println("count= " + count);
 		   					if( (count + 1) == times.size()) {
-		   						System.out.println("Times is == to size");
 		   						times.remove(count);
 		   						time = null;
-		   						if(times.contains(count))
-		   							System.out.println("Time countains count");
-		   						System.out.println("count= " + count);
 		   						done = true;
 		   					}
 		   					else if (count > times.size()) {
-		   						System.out.println("Count < size");
 		   						times.remove(count);
 		   					}
 		   				}
 		   			}
 		   			else if (time == null && elements.size() == (j + 1) && i == 0) {
-		   				System.out.println("Count < size" + time + elements.size() );
 		   			    done = true;
 		   			}
 			   }
@@ -85,21 +71,15 @@ public class TimeStampJSONParser {
 			   break;
 		   if(time != null) {
 			   if(times.isEmpty()) {
-				   System.out.println("adding time to times");
 				   times.add(count, time);
 			   }
 			   if(times.get(count) < time) {
-				   System.out.println("Not adding time to times");
 				   time = null;
 			   }	   			   
 		   }	  
 		   
-		   
-	      }
-		  System.out.println("Amount times string was found: " + times.size());
-		  System.out.println("Amount times string was found: " + times.get(count));
-	  } else {
-		  System.out.println("Did not find string");
+	   }   
+	  } else {  
 	  }
 	}
 

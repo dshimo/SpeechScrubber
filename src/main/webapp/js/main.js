@@ -1,5 +1,4 @@
 $(document).ready(function() {
-    var upload_url = "rest/speech/upload";
     var jobInProgress = false;
     var jobID;
     var timestamp_map; // Map of words to timestamp
@@ -13,12 +12,11 @@ $(document).ready(function() {
         $('#audio_text').text("Uploading audio file...");
         $('#audio').removeClass('hidden');
 
-        var formData = new FormData();
-        formData.append('filename', file.name);
+        // var formData = new FormData();
+        // formData.append('filename', file.name);
         $.ajax({
-            url: upload_url,
+            url: "rest/speech/upload?filename=" + file.name,
             type: "POST",
-            data: formData,
             async: false,
             processData: false,
             success: function(response){

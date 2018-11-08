@@ -56,7 +56,7 @@ $(document).ready(function() {
                     if(response.indexOf('false') > -1){
                         setTimeout(function(){
                             return pollForTranscript(id, num_tries);
-                        }, 1000);
+                        }, 3000);
                     }  
                     else{
                         deferred.resolve(id);
@@ -111,7 +111,7 @@ $(document).ready(function() {
         reader.readAsDataURL(this.files[0]);
         uploadFile(this.files[0]).then(function(id){
             // Poll for updates using the token
-            pollForTranscript(id, 10).then(function(id){
+            pollForTranscript(id, 33).then(function(id){
                 // Retrieve the transcript
                 retrieveTranscript(id).then(function(response){
                     // Show the transcript on the page.

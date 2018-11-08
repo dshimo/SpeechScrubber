@@ -1,5 +1,7 @@
 package com.speechscrubber;
 
+import java.util.List;
+
 import javax.json.JsonObject;
 import javax.print.attribute.standard.Media;
 import javax.ws.rs.GET;
@@ -11,6 +13,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 
 import com.speechscrubber.job.JobChecker;
+import com.speechscrubber.parser.TimeStampJSONParser;
 
 @Path("/speech")
 public class RevSpeechService {
@@ -38,13 +41,21 @@ public class RevSpeechService {
         return jc.getTranscript(id); 
     }
 
-    @POST
-    @Path("/search")
-    @Produces(MediaType.TEXT_PLAIN)
-    public String makeSearchPhrase(@QueryParam("phrase") String phrase) {
-        setSearchPhrase(phrase);
-        return "passed phrase: " + getSearchPhrase();
+    @GET
+    @Path("/{id}/timestamps")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Double> getTimeStamps(@PathParam("id") String id, @QueryParam("phrase") String phrase) throws Exception {
+        TimeStampJSONParser tsParser = new TimeStampJSONParser(jc.getTranscript(id), phrase);
+        return tsParser.getTimeStamps();
     }
+
+    // @POST
+    // @Path("/search")
+    // @Produces(MediaType.TEXT_PLAIN)
+    // public String makeSearchPhrase(@QueryParam("phrase") String phrase) {
+    //     setSearchPhrase(phrase);
+    //     return "passed phrase: " + getSearchPhrase();
+    // }
 
     private void setSearchPhrase(String phrase) {
         this.searchPhrase = phrase;

@@ -45,9 +45,7 @@ $(document).ready(function() {
 
     var pollForTranscript = function(id, num_tries) {
         var deferred = $.Deferred();
-        var done = false;
         if(num_tries > 0) {
-            num_tries--;
             $.ajax({
                 url: "rest/speech/check/" + id,
                 type: "GET",
@@ -55,11 +53,12 @@ $(document).ready(function() {
                 async: false,
                 processData: false,
                 success: function(response){
-                    // Insert the uploaded audio file in the audio portion.                    
-                    deferred.resolve(id);
+                    // Insert the uploaded audio file in the audio portion.   
+                    num_tries--;                 
+                    deferred.resolve(response);
                 },
-                error: function(jqXHR){
-                    // deferred.reject(jqXHR);
+                error: function(){
+                    num_tries--;
                     if(num_tries == 0){
                         deferred.reject();
                     }
@@ -68,6 +67,9 @@ $(document).ready(function() {
                     }                    
                 }
             });       
+        }
+        else {
+            deferred.reject();
         }
         return deferred;
     };
@@ -104,13 +106,19 @@ $(document).ready(function() {
             // Poll for updates using the token
             pollForTranscript(id).then(function(id){
                 // Retrieve the transcript
-                retrieveTranscript(id).then(function(){
-
-                }).fail(function(){
-
+                retrieveTranscript(id).then(function(response){
+                    // Show the transcript on the page.
+                    var transcript = response.split('\s');
+                    for(var word in transcript){
+                        var span = $(span);
+                        span.innerText = word;
+                        $('#transcript').append(span);
+                    }
+                }).fail(function(error){
+                    $('#audio_status').text('Unable to retrieve transcript from Rev.ai');
                 });
-            }).fail(function(){
-                
+            }).fail(function(error){
+                $('#audio_status').text('The transcript was unable to be created.');
             });
             // Show pills for each word in the transcript of the audio file.
         }).fail(function(error){
@@ -154,7 +162,7 @@ $(document).ready(function() {
             timeout = setTimeout(later, wait);
             if (callNow) func.apply(context, args);
         };
-    };
+    }
 
     var doSearch = debounce(function(search) {
         $.ajax({

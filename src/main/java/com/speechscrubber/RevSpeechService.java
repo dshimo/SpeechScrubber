@@ -25,4 +25,12 @@ public class RevSpeechService {
         JobChecker jobChecker = new JobChecker();
         return "id " + id + " ready to transcribe: " + jobChecker.isTranscriptReady(id);
     }
+
+    @GET
+    @Path("/{id}/transcript")
+    @Produces(MediaType.TEXT_PLAIN)
+    public String getTranscript(@PathParam("id") String id) throws Exception {
+        JobChecker jobChecker = new JobChecker();
+        return "id" + id + " transcript = " + jobChecker.getTranscript(id); 
+    }
 }

@@ -55,6 +55,13 @@ public class JobChecker {
         return convertResponseToJson(response);
     }
 
+    public JsonObject getTranscript(String jobId) throws JobException {
+        Map<String, String> requestHeaders = createRequestHeaders();
+        requestHeaders.put("Accept", "application/vnd.rev.transcript.v1.0+json");
+        String response = httpUtils.sendGetRequest(JOBS_URL + jobId + "/transcript", requestHeaders);
+        return convertResponseToJson(response);
+    }
+
     Map<String, String> createRequestHeaders() {
         Map<String, String> requestProperties = new HashMap<String, String>();
         requestProperties.put("Authorization", "Bearer " + getApiKey());

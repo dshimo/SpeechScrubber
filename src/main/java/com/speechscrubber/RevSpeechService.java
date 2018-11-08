@@ -35,7 +35,7 @@ public class RevSpeechService {
     @Path("/{id}/transcript")
     @Produces(MediaType.APPLICATION_JSON)
     public JsonObject getTranscript(@PathParam("id") String id) throws Exception {
-        return jobChecker.getTranscript(id); 
+        return jc.getTranscript(id); 
     }
 
     @POST

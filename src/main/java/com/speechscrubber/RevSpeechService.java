@@ -1,7 +1,5 @@
 package com.speechscrubber;
 
-import java.util.List;
-
 import javax.json.JsonObject;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;

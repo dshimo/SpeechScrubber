@@ -1,7 +1,7 @@
 $(document).ready(function() {
     var jobInProgress = false;
     var jobID;
-    var timestamp_map; // Map of words to timestamp
+    var timestamp_map = []; // Map of words to timestamp
 
     var uploadFile = function(file){
         var deferred = new $.Deferred();
@@ -44,6 +44,7 @@ $(document).ready(function() {
     };
 
     var pollForTranscript = function(id, num_tries) {
+        $('#audio_text').text("File uploaded. Waiting for the transcript.");
         var deferred = $.Deferred();
         if(num_tries > 0) {
             $.ajax({
@@ -58,7 +59,8 @@ $(document).ready(function() {
                             return pollForTranscript(id, num_tries);
                         }, 3000);
                     }  
-                    else{
+                    else{                        
+                        retrieveTranscript(id);
                         deferred.resolve(id);
                     }
                 },
@@ -88,8 +90,10 @@ $(document).ready(function() {
             type: "GET",
             async: true,
             success: function(response){
-                if(response.transcript !== null){
-                    deferred.resolve(response.transcript);
+                if(response !== null){
+                    $('#audio_text').text("Transcript loaded.");
+                    parseTranscript(response.monologues[0].elements);
+                    deferred.resolve(response);
                 } else {
                     deferred.reject();
                 }
@@ -101,12 +105,31 @@ $(document).ready(function() {
         return deferred;
     };
 
+    var parseTranscript = function(response) {
+        // Show the transcript on the page.
+        var index = 0;
+        for(var key in response){
+            var word = response[key];
+            if(word.type == "text" && word.value != " "){
+                var span = $("<span>");
+                span.text(word.value);
+                span.data('index', index);
+                span.data('ts', word.ts);
+                span.data('value', word.value);
+                $('#transcript').append(span);
+                timestamp_map[index] = word.ts;
+                index++;
+            }            
+        }
+    };
+
     $('#file_browse').on('change', function(){
         var audio = document.getElementById('audio');
         var reader = new FileReader();
         reader.onload = function(event) {
             audio.src = this.result;
             audio.controls = true;
+            audio.autoplay = true;
         };
         reader.readAsDataURL(this.files[0]);
         uploadFile(this.files[0]).then(function(id){
@@ -114,13 +137,13 @@ $(document).ready(function() {
             pollForTranscript(id, 33).then(function(id){
                 // Retrieve the transcript
                 retrieveTranscript(id).then(function(response){
-                    // Show the transcript on the page.
-                    var transcript = response.split('\s');
-                    for(var word in transcript){
-                        var span = $(span);
-                        span.innerText = word;
-                        $('#transcript').append(span);
-                    }
+                    // // Show the transcript on the page.
+                    // var transcript = response.split('\s');
+                    // for(var word in transcript){
+                    //     var span = $(span);
+                    //     span.innerText = word;
+                    //     $('#transcript').append(span);
+                    // }
                 }).fail(function(error){
                     $('#audio_status').text('Unable to retrieve transcript from Rev.ai');
                 });
@@ -151,9 +174,9 @@ $(document).ready(function() {
                 var time = timestamp_map[index];
                 if(time){
                     $('#audio')[0].currentTime = time;
+                    $('#audio')[0].play();
                 }
             }  
-            $('#audio')[0].currentTime = 4;
         }                      
     });
 

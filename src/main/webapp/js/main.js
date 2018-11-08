@@ -49,13 +49,18 @@ $(document).ready(function() {
             $.ajax({
                 url: "rest/speech/check/" + id,
                 type: "GET",
-                data: formData,
                 async: false,
-                processData: false,
                 success: function(response){
-                    // Insert the uploaded audio file in the audio portion.   
-                    num_tries--;                 
-                    deferred.resolve(response);
+                    // Insert the uploaded audio file in the audio portion.
+                    num_tries--;   
+                    if(response.indexOf('false') > -1){
+                        setTimeout(function(){
+                            return pollForTranscript(id, num_tries);
+                        }, 1000);
+                    }  
+                    else{
+                        deferred.resolve(id);
+                    }
                 },
                 error: function(){
                     num_tries--;
@@ -77,7 +82,7 @@ $(document).ready(function() {
     };
 
     var retrieveTranscript = function(id) {
-        var deferred = $.deferred();
+        var deferred = $.Deferred();
         $.ajax({
             url: "rest/speech/" + id + "/transcript",
             type: "GET",
@@ -106,7 +111,7 @@ $(document).ready(function() {
         reader.readAsDataURL(this.files[0]);
         uploadFile(this.files[0]).then(function(id){
             // Poll for updates using the token
-            pollForTranscript(id).then(function(id){
+            pollForTranscript(id, 10).then(function(id){
                 // Retrieve the transcript
                 retrieveTranscript(id).then(function(response){
                     // Show the transcript on the page.

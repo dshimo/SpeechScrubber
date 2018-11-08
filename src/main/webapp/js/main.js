@@ -13,7 +13,7 @@ $(document).ready(function() {
         $('#audio_text').text("Uploading audio file...");
 
         var formData = new FormData();
-        formData.append('data', file);
+        formData.append('filename', file.name);
         $.ajax({
             url: upload_url,
             type: "POST",
@@ -25,7 +25,8 @@ $(document).ready(function() {
                 $('#audio').removeClass('hidden');
                 if(response.id !== null){
                     // ID from the job comes back. Need to keep polling to determine when the job is done/failed.
-                    deferred.resolve(response.id);
+                    // deferred.resolve(response.id);
+                    deferred.resolve(result.id);
                 } else {
                     deferred.reject();
                 }
@@ -41,11 +42,56 @@ $(document).ready(function() {
         return deferred;
     };
 
-    var pollForTranscript = function() {
-
+    var pollForTranscript = function(id, num_tries) {
+        var deferred = $.Deferred();
+        var done = false;
+        if(num_tries > 0) {
+            num_tries--;
+            $.ajax({
+                url: "rest/speech/check/" + id,
+                type: "GET",
+                data: formData,
+                async: false,
+                processData: false,
+                success: function(response){
+                    // Insert the uploaded audio file in the audio portion.                    
+                    deferred.resolve(id);
+                },
+                error: function(jqXHR){
+                    // deferred.reject(jqXHR);
+                    if(num_tries == 0){
+                        deferred.reject();
+                    }
+                    else {
+                        return pollForTranscript(id, num_tries-1);
+                    }                    
+                }
+            });       
+        }
+        return deferred;
     };
 
-    $('#file_browse').on('change', function(){        
+    var retrieveTranscript = function(id) {
+        var deferred = $.deferred();
+        $.ajax({
+            url: "rest/speech/" + id + "/transcript",
+            type: "GET",
+            async: true,
+            success: function(response){
+                if(response.transcript !== null){
+                    deferred.resolve(response.transcript);
+                } else {
+                    deferred.reject();
+                }
+            },
+            error: function(jqXHR){
+                deferred.reject(jqXHR);
+            }
+        });
+        return deferred;
+    };
+
+    $('#file_browse').on('change', function(){
         var audio = document.getElementById('audio');
         var reader = new FileReader();
         reader.onload = function(event) {
@@ -53,11 +99,18 @@ $(document).ready(function() {
             audio.controls = true;
         };
         reader.readAsDataURL(this.files[0]);
-        uploadFile(this.files[0]).then(function(jobID){
+        uploadFile(this.files[0]).then(function(id){
             // Poll for updates using the token
+            pollForTranscript(id).then(function(id){
+                // Retrieve the transcript
+                retrieveTranscript(id).then(function(){
 
+                }).fail(function(){
 
-
+                });
+            }).fail(function(){
+                
+            });
             // Show pills for each word in the transcript of the audio file.
         }).fail(function(error){
             // Display error that no transcription was found.

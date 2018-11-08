@@ -11,6 +11,7 @@ import javax.json.JsonValue;
 import javax.json.JsonValue.ValueType;
 
 import com.speechscrubber.Constants;
+import com.speechscrubber.Utils;
 import com.speechscrubber.web.HttpUtils;
 
 public class JobChecker {
@@ -21,10 +22,6 @@ public class JobChecker {
     public static final String STATUS_TRANSCRIBED = "transcribed";
 
     private HttpUtils httpUtils = new HttpUtils();
-
-    public String getApiKey() {
-        return System.getenv(Constants.API_KEY_SYSTEM_PROP);
-    }
 
     public boolean isTranscriptReady(String jobId) {
         try {
@@ -64,7 +61,7 @@ public class JobChecker {
 
     Map<String, String> createRequestHeaders() {
         Map<String, String> requestProperties = new HashMap<String, String>();
-        requestProperties.put("Authorization", "Bearer " + getApiKey());
+        requestProperties.put("Authorization", "Bearer " + Utils.getApiKey());
         return requestProperties;
     }
 

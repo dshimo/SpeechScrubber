@@ -3,16 +3,18 @@ package com.speechscrubber;
 import java.util.List;
 
 import javax.json.JsonObject;
-import javax.print.attribute.standard.Media;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
-import javax.ws.rs.PathParam;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import com.speechscrubber.job.JobChecker;
+import com.speechscrubber.job.JobPoster;
 import com.speechscrubber.parser.TimeStampJSONParser;
 
 @Path("/speech")
@@ -38,7 +40,7 @@ public class RevSpeechService {
     @Path("/{id}/transcript")
     @Produces(MediaType.APPLICATION_JSON)
     public JsonObject getTranscript(@PathParam("id") String id) throws Exception {
-        return jc.getTranscript(id); 
+        return jc.getTranscript(id);
     }
 
     @GET
@@ -64,4 +66,14 @@ public class RevSpeechService {
     private String getSearchPhrase() {
         return this.searchPhrase;
     }
+
+    @POST
+    @Path("/upload")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String postAudio(@Context HttpServletRequest request) {
+        System.out.println("Posting audio...");
+        JobPoster jobPoster = new JobPoster();
+        return jobPoster.postAudio(request);
+    }
+
 }

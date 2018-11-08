@@ -27,10 +27,12 @@ $(document).ready(function() {
                     jobID = response.id;
                     deferred.resolve(response.id);
                 } else {
+                    console.log("I reject you, Satan!");
                     deferred.reject();
                 }
             },
             error: function(jqXHR){
+                console.log("Oh noes!");
                 deferred.reject(jqXHR);
             }
         });

@@ -3,7 +3,6 @@ package com.speechscrubber.job;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -11,48 +10,36 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import com.speechscrubber.Constants;
 
 public class JobCheckerTest {
 
     JobChecker checker;
-    String apiSysPropValue = null;
 
     @Before
     public void beforeTest() {
         checker = new JobChecker();
-        apiSysPropValue = System.getProperty(Constants.API_KEY_SYSTEM_PROP);
     }
 
-    @After
-    public void afterTest() {
-        if (apiSysPropValue != null) {
-            System.setProperty(Constants.API_KEY_SYSTEM_PROP, apiSysPropValue);
-        }
-    }
-
-    /******************************************************* getApiKey *******************************************************/
-
-    @Test
-    public void test_getApiKey_keyNotSet() {
-        System.clearProperty(Constants.API_KEY_SYSTEM_PROP);
-
-        String key = checker.getApiKey();
-        assertNull("API key was not null but should have been. Key was [" + key + "].", key);
-    }
-
-    @Test
-    public void test_getApiKey_keySet() {
-        String actualKey = "test";
-        System.setProperty(Constants.API_KEY_SYSTEM_PROP, actualKey);
-
-        String foundKey = checker.getApiKey();
-        assertEquals("API key did not match expected value.", actualKey, foundKey);
-    }
+    //    /******************************************************* getApiKey *******************************************************/
+    //
+    //    @Test
+    //    public void test_getApiKey_keyNotSet() {
+    //        System.clearProperty(Constants.API_KEY_SYSTEM_PROP);
+    //
+    //        String key = checker.getApiKey();
+    //        assertNull("API key was not null but should have been. Key was [" + key + "].", key);
+    //    }
+    //
+    //    @Test
+    //    public void test_getApiKey_keySet() {
+    //        String actualKey = "test";
+    //        System.setProperty(Constants.API_KEY_SYSTEM_PROP, actualKey);
+    //
+    //        String foundKey = checker.getApiKey();
+    //        assertEquals("API key did not match expected value.", actualKey, foundKey);
+    //    }
 
     /******************************************************* isTranscriptReady *******************************************************/
 

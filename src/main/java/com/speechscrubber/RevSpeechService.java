@@ -1,7 +1,5 @@
 package com.speechscrubber;
 
-import java.util.List;
-
 import javax.json.JsonObject;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
@@ -45,10 +43,10 @@ public class RevSpeechService {
 
     @GET
     @Path("/{id}/timestamps")
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<Double> getTimeStamps(@PathParam("id") String id, @QueryParam("phrase") String phrase) throws Exception {
+    @Produces(MediaType.TEXT_PLAIN)
+    public String getTimeStamps(@PathParam("id") String id, @QueryParam("phrase") String phrase) throws Exception {
         TimeStampJSONParser tsParser = new TimeStampJSONParser(jc.getTranscript(id), phrase);
-        return tsParser.getTimeStamps();
+        return tsParser.getTimeStamps().toString();
     }
 
     // @POST

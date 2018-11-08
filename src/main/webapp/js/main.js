@@ -55,7 +55,16 @@ $(document).ready(function() {
                 success: function(response){
                     // Insert the uploaded audio file in the audio portion.   
                     num_tries--;                 
-                    deferred.resolve(response);
+                    // Insert the uploaded audio file in the audio portion.
+                    num_tries--;   
+                    if(response.indexOf('false') > -1){
+                        setTimeout(function(){
+                            return pollForTranscript(id, num_tries);
+                        }, 3000);
+                    }  
+                    else{
+                        deferred.resolve(id);
+                    }
                 },
                 error: function(){
                     num_tries--;
@@ -106,7 +115,7 @@ $(document).ready(function() {
         reader.readAsDataURL(this.files[0]);
         uploadFile(this.files[0]).then(function(id){
             // Poll for updates using the token
-            pollForTranscript(id).then(function(id){
+            pollForTranscript(id, 50).then(function(id){
                 // Retrieve the transcript
                 retrieveTranscript(id).then(function(response){
                     // Show the transcript on the page.
@@ -169,8 +178,8 @@ $(document).ready(function() {
 
     var doSearch = debounce(function(search) {
         $.ajax({
-            url: "rest/speech/" + jobID + "/timestamps/search?phrase=" + search,
-            type: "POST",
+            url: "rest/speech/" + jobID + "/timestamps?phrase=" + search,
+            type: "GET",
             success: function(response){
                 console.log(response);
                 if(response.id !== null){

@@ -23,7 +23,7 @@ public class JobChecker {
     private HttpUtils httpUtils = new HttpUtils();
 
     public String getApiKey() {
-        return System.getProperty(Constants.API_KEY_SYSTEM_PROP);
+        return System.getenv(Constants.API_KEY_SYSTEM_PROP);
     }
 
     public boolean isTranscriptReady(String jobId) {

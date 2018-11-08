@@ -14,7 +14,7 @@ public class TimeStampJSONParser {
 	
 	private static List<Double> times = new ArrayList<Double>();
 
-	TimeStampJSONParser(JsonObject transcript, String searchString) {
+	public TimeStampJSONParser(JsonObject transcript, String searchString) {
 
 	   OrderedJSONObject jsonObject = (OrderedJSONObject) transcript;
 	   

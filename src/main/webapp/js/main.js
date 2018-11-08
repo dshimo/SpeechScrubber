@@ -144,6 +144,7 @@ $(document).ready(function() {
                     $('#audio')[0].currentTime = time;
                 }
             }  
+            $('#audio')[0].currentTime = 4;
         }                      
     });
 

@@ -45,10 +45,12 @@ public class RevSpeechService {
 
     @GET
     @Path("/{id}/timestamps")
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<Double> getTimeStamps(@PathParam("id") String id, @QueryParam("phrase") String phrase) throws Exception {
+    @Produces(MediaType.TEXT_PLAIN)
+    public String getTimeStamps(@PathParam("id") String id, @QueryParam("phrase") String phrase) throws Exception {
+        System.out.println("Just entered getTimeStamps in revSpeech");
         TimeStampJSONParser tsParser = new TimeStampJSONParser(jc.getTranscript(id), phrase);
-        return tsParser.getTimeStamps();
+        System.out.println("About to enter getTimeStamps from Parser");
+        return tsParser.getTimeStamps().toString();
     }
 
     // @POST

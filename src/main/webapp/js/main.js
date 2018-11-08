@@ -174,8 +174,8 @@ $(document).ready(function() {
 
     var doSearch = debounce(function(search) {
         $.ajax({
-            url: "rest/speech/" + jobID + "/timestamps/search?phrase=" + search,
-            type: "POST",
+            url: "rest/speech/" + jobID + "/timestamps?phrase=" + search,
+            type: "GET",
             success: function(response){
                 console.log(response);
                 if(response.id !== null){

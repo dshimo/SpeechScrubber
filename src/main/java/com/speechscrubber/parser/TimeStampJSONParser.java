@@ -18,12 +18,25 @@ public class TimeStampJSONParser {
 
 	   OrderedJSONObject jsonObject = (OrderedJSONObject) transcript;
 	   
+	   if(jsonObject == null)
+		   return; 
+	   
 	   JSONArray monologues = (JSONArray) jsonObject.get("monologues");
 	   
-	   JSONObject speaker1 = (JSONObject) monologues.get(1);
+	   if(monologues == null)
+		   return; 
 	   
-	   JSONArray elements = (JSONArray) speaker1.get("elements");
+	   // TODO: Handle more than one speaker
+	   JSONObject speaker = (JSONObject) monologues.get(0);
+	   
+	   if(speaker == null)
+		   return; 
+	   
+	   JSONArray elements = (JSONArray) speaker.get("elements");
 
+	   if(elements == null)
+		   return; 
+	   
 	   String[] sentenceArray = searchString.split(" ");
 	   Double time = null;
 	   boolean done = false;

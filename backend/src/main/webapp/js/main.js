@@ -7,10 +7,14 @@ $(document).ready(function() {
     var uploadFile = function(file){
         var deferred = new $.Deferred();
         jobInProgress = true;
+
+        var formData = new FormData(file);
+        formData.append('data', file);
         $.ajax({
             url: upload_url,
             type: "POST",
-            data: file,
+            data: formData,
+            processData: false,
             success: function(response){
                 if(response){
                     // ID from the job comes back. Need to keep polling to determine when the job is done/failed.

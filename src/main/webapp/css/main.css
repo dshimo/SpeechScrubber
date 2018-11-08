@@ -44,24 +44,22 @@ p {
     margin-bottom: 50px;
 }
 
-#audio_text {
-    width: 100%;
-}
-
 /* Transcript */
 #transcript_section {
 
 }
 
 #transcript {
-    margin-top: 50px;
-    margin-bottom: 50px;
+    margin-top: 25px;
+    margin-bottom: 25px;
+    width: 100%;
 }
 
 #transcript > span {
     padding: 5px 10px;
     border: 2px solid black;
     border-radius: 50px;
+    margin-right: 12px;
 }
 
 #transcript > span:hover {

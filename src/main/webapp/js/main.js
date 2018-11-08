@@ -8,6 +8,10 @@ $(document).ready(function() {
         var deferred = new $.Deferred();
         jobInProgress = true;
 
+        $('#audio_status').removeClass('hidden');
+        $('#audio_text').removeClass('hidden');
+        $('#audio_text').text("Uploading audio file...");
+
         var formData = new FormData(file);
         formData.append('data', file);
         $.ajax({
@@ -17,6 +21,8 @@ $(document).ready(function() {
             async: false,
             processData: false,
             success: function(response){
+                // Insert the uploaded audio file in the audio portion.
+                $('#audio').removeClass('hidden');
                 if(response.id !== null){
                     // ID from the job comes back. Need to keep polling to determine when the job is done/failed.
                     deferred.resolve(response.id);
@@ -35,10 +41,11 @@ $(document).ready(function() {
         return deferred;
     };
 
-    $('#file_browse').on('change', function(){
-        // Insert the uploaded audio file in the audio portion.
-        $('#audio').removeClass('hidden');
-        
+    var pollForTranscript = function() {
+
+    };
+
+    $('#file_browse').on('change', function(){        
         var audio = document.getElementById('audio');
         var reader = new FileReader();
         reader.onload = function(event) {
@@ -75,5 +82,38 @@ $(document).ready(function() {
                 }
             }  
         }                      
+    });
+
+    // Filter down the transcript
+    $('#transcript_search').on('keydown', function(){
+        var search = this.value;
+        // Send POST to backend
+        $.ajax({
+            url: "rest/speech/health",
+            type: "POST",
+            data: search,
+            async: true,
+            success: function(response){
+                if(response.id !== null){
+                    // ID from the job comes back. Need to keep polling to determine when the job is done/failed.
+                    deferred.resolve(response.id);
+                } else {
+                }
+            },
+            error: function(jqXHR){
+            }
+        });
+
+
+
+        // var words = $('#transcript > span');
+        // if(speech == ""){
+        //     // Show all pills
+        //     $('#transcript > span').show();
+        // } else {
+        //     // Filter down by the search criteria and if one matches instantly jump to the spot in the video.
+        //     var spans = $('#transcript > span');
+
+        // }
     });
 });

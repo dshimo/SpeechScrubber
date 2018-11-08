@@ -26,20 +26,23 @@
     <div class="row">
         <input type="file" id="file_browse" style="display: none">
         <div id="file_upload" class="col-xs-12">
-                <p>Upload an audio file:</p>
+                <p id=>Upload an audio file:</p>
                 <img id="upload_file_icon" src="img/file_upload.png" />                
         </div>
     </div>       
     <div id="audio_section" class="row">
-        <p id="audio_text">Audio clip:</p>
+        <p id="audio_status"  class="hidden">Status: &nbsp</p>
+        <p id="audio_text" class="hidden">Audio clip:</p>
         <audio id="audio" controls class="hidden"></audio>
     </div>
     <div id="transcript_section" class="row">
-        <p id="transcript_description">Transcript of the audo clip:</p>
+        <h4 id="transcript_description">Transcript of the audo clip:</h4>
+        <p id="transcript_instructions">Click part of the transcript to jump to where it was said in the video or search the transcript:   <input id="transcript_search" type="text" placeholder="Search"/></p>
+        
         <div id="transcript">
-            <span>test</span>
-        </div>
-        <p id="transcript_instructions">Click on any of the words in the transcript to jump to where it was said in the video.</p>
+            <span>a</span><span>quick</span><span>brown</span><span>fox</span><span>jumps</span><span>over</span>
+            <span>the</span><span>lazy</span><span>dog</span>
+        </div>        
     </div>
 </div>
 

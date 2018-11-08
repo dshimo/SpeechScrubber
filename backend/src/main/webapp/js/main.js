@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    var upload_url = "https://api.rev.ai/revspeech/v1beta/jobs/";
+    var upload_url = "rest/speech/upload";
     var jobInProgress = false;
     var jobID;
     var timestamp_map; // Map of words to timestamp
@@ -14,32 +14,26 @@ $(document).ready(function() {
             url: upload_url,
             type: "POST",
             data: formData,
+            async: false,
             processData: false,
             success: function(response){
-                if(response){
+                if(response.id !== null){
                     // ID from the job comes back. Need to keep polling to determine when the job is done/failed.
+                    deferred.resolve(response.id);
+                } else {
+                    deferred.reject();
                 }
-                deferred.resolve();
             },
-            error: function(error){
-                deferred.reject(error);
+            error: function(jqXHR){
+                deferred.reject(jqXHR);
             }
         });
+        // Automatically reject after 1 minute of no response
+        setTimeout(function(){
+            deferred.reject('timeout');
+        },60000);
         return deferred;
     };
-
-    $.ajax({
-        url: "rest/speech/check",
-        type: "GET",
-        success: function(response){
-            if(response){
-                // ID from the job comes back. Need to keep polling to determine when the job is done/failed.
-            }
-        },
-        error: function(error){
-            console.error('error');
-        }
-    });
 
     $('#file_browse').on('change', function(){
         // Insert the uploaded audio file in the audio portion.
@@ -52,9 +46,10 @@ $(document).ready(function() {
             audio.controls = true;
         };
         reader.readAsDataURL(this.files[0]);
-        uploadFile(this.files[0]).then(function(result){
+        uploadFile(this.files[0]).then(function(token){
             // Show pills for each word in the transcript of the audio file.
-        }).fail(function(){
+            // Poll for updates using the token
+        }).fail(function(error){
             // Display error that no transcription was found.
         });
     });

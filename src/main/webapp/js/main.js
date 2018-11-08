@@ -11,6 +11,7 @@ $(document).ready(function() {
         $('#audio_status').removeClass('hidden');
         $('#audio_text').removeClass('hidden');
         $('#audio_text').text("Uploading audio file...");
+        $('#audio').removeClass('hidden');
 
         var formData = new FormData();
         formData.append('filename', file.name);
@@ -22,7 +23,7 @@ $(document).ready(function() {
             processData: false,
             success: function(response){
                 // Insert the uploaded audio file in the audio portion.
-                $('#audio').removeClass('hidden');
+                // $('#audio').removeClass('hidden');
                 if(response.id !== null){
                     // ID from the job comes back. Need to keep polling to determine when the job is done/failed.
                     // deferred.resolve(response.id);

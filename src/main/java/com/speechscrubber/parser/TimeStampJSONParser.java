@@ -4,6 +4,8 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import  javax.json.JsonObject;
+
 import com.ibm.json.java.JSONArray;
 import com.ibm.json.java.JSONObject;
 import com.ibm.json.java.OrderedJSONObject;
@@ -12,7 +14,7 @@ public class TimeStampJSONParser {
 	
 	private static List<Double> times = new ArrayList<Double>();
 
-	TimeStampJSONParser(JSONObject transcript, String searchString) {
+	TimeStampJSONParser(JsonObject transcript, String searchString) {
 
 	   OrderedJSONObject jsonObject = (OrderedJSONObject) transcript;
 	   
